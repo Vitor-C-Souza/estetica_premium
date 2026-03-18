@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.me.vitorcsouza.esteticapremium.R
 import br.me.vitorcsouza.esteticapremium.databinding.FragmentBookingBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -17,6 +20,7 @@ import java.util.Locale
 
 class BookingFragment : Fragment() {
 
+    private val viewModel: BookingViewModel by viewModels()
     private var _binding: FragmentBookingBinding? = null
     private val binding get() = _binding!!
 
@@ -64,6 +68,16 @@ class BookingFragment : Fragment() {
         binding.btnConfirm.setOnClickListener {
             showConfirmationDialog()
         }
+
+        viewModel.isSaved.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                Toast.makeText(requireContext(), "Agendamento confirmado!", Toast.LENGTH_SHORT).show()
+                // Usando ação global para voltar para a home
+                findNavController().navigate(R.id.action_global_homeFragment)
+            } else {
+                Toast.makeText(requireContext(), "Erro ao agendar. Tente novamente.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun showConfirmationDialog() {
@@ -74,7 +88,16 @@ class BookingFragment : Fragment() {
             .setTitle("Confirmar Agendamento")
             .setMessage("Deseja confirmar seu agendamento para o dia $dateText às $timeText?")
             .setPositiveButton("Confirmar") { _, _ ->
+                // Primeiro navegamos para a tela de sucesso
                 navigateToConfirmation(dateText, timeText)
+                
+                // E salvamos no banco
+                viewModel.confirmBooking(
+                    service = args.serviceName,
+                    professional = args.professionalName, 
+                    date = dateText,
+                    time = timeText
+                )
             }
             .setNegativeButton("Cancelar", null)
             .show()

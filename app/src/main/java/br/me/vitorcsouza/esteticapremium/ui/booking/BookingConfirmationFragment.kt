@@ -16,7 +16,6 @@ class BookingConfirmationFragment : Fragment() {
     private var _binding: FragmentBookingConfirmationBinding? = null
     private val binding get() = _binding!!
 
-    // Usando Safe Args para receber os dados
     private val args: BookingConfirmationFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -31,18 +30,13 @@ class BookingConfirmationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Preenchendo os dados dinamicamente
         binding.tvProfessionalName.text = args.professionalName
         binding.tvDate.text = args.date
         binding.tvTime.text = args.time
-        binding.tvLocation.text = "Av. Paulista, 1000" // Valor fixo conforme imagem
+        binding.tvLocation.text = "Av. Paulista, 1000"
 
         binding.btnBackToHome.setOnClickListener {
             findNavController().navigate(R.id.action_global_homeFragment)
-        }
-
-        binding.btnViewBookings.setOnClickListener {
-            // Navegar para lista de agendamentos (se existir)
         }
     }
 

@@ -1,5 +1,6 @@
 package br.me.vitorcsouza.esteticapremium.ui.services
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -39,8 +40,9 @@ class ServiceAdapter(
 
     override fun getItemCount(): Int = services.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newServices: List<Service>) {
         services = newServices
-        notifyDataSetChanged()
+        this.notifyDataSetChanged()
     }
 }

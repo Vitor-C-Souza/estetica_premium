@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.me.vitorcsouza.esteticapremium.databinding.FragmentProfessionalsBinding
 
@@ -16,6 +17,7 @@ class ProfessionalsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ProfessionalsViewModel by viewModels()
+    private val args: ProfessionalsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +49,7 @@ class ProfessionalsFragment : Fragment() {
         viewModel.professionals.observe(viewLifecycleOwner) { list ->
             binding.rvProfessionals.adapter = ProfessionalAdapter(list) { professional ->
                 val action = ProfessionalsFragmentDirections.actionProfessionalsFragmentToBookingFragment(
+                    serviceName = args.serviceName,
                     professionalName = professional.name
                 )
                 findNavController().navigate(action)

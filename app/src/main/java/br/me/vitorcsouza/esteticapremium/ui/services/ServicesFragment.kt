@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.me.vitorcsouza.esteticapremium.R
 import br.me.vitorcsouza.esteticapremium.data.model.Service
 import br.me.vitorcsouza.esteticapremium.databinding.FragmentServicesBinding
 
@@ -53,7 +52,10 @@ class ServicesFragment : Fragment() {
     }
 
     private fun onServiceClick(service: Service) {
-        findNavController().navigate(R.id.action_servicesFragment_to_professionalsFragment)
+        val action = ServicesFragmentDirections.actionServicesFragmentToProfessionalsFragment(
+            serviceName = service.name
+        )
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
