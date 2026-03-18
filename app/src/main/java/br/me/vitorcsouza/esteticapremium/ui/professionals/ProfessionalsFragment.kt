@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.me.vitorcsouza.esteticapremium.R
 import br.me.vitorcsouza.esteticapremium.databinding.FragmentProfessionalsBinding
 
 class ProfessionalsFragment : Fragment() {
@@ -45,7 +46,9 @@ class ProfessionalsFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.professionals.observe(viewLifecycleOwner) { list ->
-            binding.rvProfessionals.adapter = ProfessionalAdapter(list)
+            binding.rvProfessionals.adapter = ProfessionalAdapter(list) { professional ->
+                findNavController().navigate(R.id.action_professionalsFragment_to_bookingFragment)
+            }
         }
     }
 

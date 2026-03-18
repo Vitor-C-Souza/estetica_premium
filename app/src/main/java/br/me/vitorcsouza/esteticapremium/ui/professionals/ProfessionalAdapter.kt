@@ -6,16 +6,22 @@ import androidx.recyclerview.widget.RecyclerView
 import br.me.vitorcsouza.esteticapremium.data.model.Professional
 import br.me.vitorcsouza.esteticapremium.databinding.ItemProfessionalBinding
 
-class ProfessionalAdapter(private val professionals: List<Professional>) :
-    RecyclerView.Adapter<ProfessionalAdapter.ProfessionalViewHolder>() {
+class ProfessionalAdapter(
+    private val professionals: List<Professional>,
+    private val onProfessionalClick: (Professional) -> Unit
+) : RecyclerView.Adapter<ProfessionalAdapter.ProfessionalViewHolder>() {
 
-    class ProfessionalViewHolder(private val binding: ItemProfessionalBinding) :
+    inner class ProfessionalViewHolder(private val binding: ItemProfessionalBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(professional: Professional) {
             binding.tvInitials.text = professional.initials
             binding.tvProfessionalName.text = professional.name
             binding.tvSpecialty.text = professional.specialty
             binding.tvRating.text = professional.rating.toString()
+            
+            binding.root.setOnClickListener {
+                onProfessionalClick(professional)
+            }
         }
     }
 
