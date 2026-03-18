@@ -38,6 +38,10 @@ class BookingConfirmationFragment : Fragment() {
         binding.btnBackToHome.setOnClickListener {
             findNavController().navigate(R.id.action_global_homeFragment)
         }
+
+        binding.btnViewBookings.setOnClickListener {
+            findNavController().navigate(R.id.action_bookingConfirmationFragment_to_bookingsFragment)
+        }
     }
 
     override fun onDestroyView() {

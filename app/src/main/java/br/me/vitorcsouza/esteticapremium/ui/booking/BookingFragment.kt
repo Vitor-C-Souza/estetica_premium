@@ -1,6 +1,12 @@
 package br.me.vitorcsouza.esteticapremium.ui.booking
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.me.vitorcsouza.esteticapremium.R
 import br.me.vitorcsouza.esteticapremium.databinding.FragmentBookingBinding
+import br.me.vitorcsouza.esteticapremium.receiver.BookingNotificationReceiver
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -72,7 +79,6 @@ class BookingFragment : Fragment() {
         viewModel.isSaved.observe(viewLifecycleOwner) { success ->
             if (success) {
                 Toast.makeText(requireContext(), "Agendamento confirmado!", Toast.LENGTH_SHORT).show()
-                // Usando ação global para voltar para a home
                 findNavController().navigate(R.id.action_global_homeFragment)
             } else {
                 Toast.makeText(requireContext(), "Erro ao agendar. Tente novamente.", Toast.LENGTH_SHORT).show()
@@ -88,10 +94,9 @@ class BookingFragment : Fragment() {
             .setTitle("Confirmar Agendamento")
             .setMessage("Deseja confirmar seu agendamento para o dia $dateText às $timeText?")
             .setPositiveButton("Confirmar") { _, _ ->
-                // Primeiro navegamos para a tela de sucesso
+                scheduleNotification()
                 navigateToConfirmation(dateText, timeText)
                 
-                // E salvamos no banco
                 viewModel.confirmBooking(
                     service = args.serviceName,
                     professional = args.professionalName, 
@@ -101,6 +106,66 @@ class BookingFragment : Fragment() {
             }
             .setNegativeButton("Cancelar", null)
             .show()
+    }
+
+    private fun scheduleNotification() {
+        val date = selectedDate ?: return
+        val time = selectedTime ?: return
+
+        val bookingCalendar = Calendar.getInstance()
+        try {
+            val dateParts = date.fullDate.split("-")
+            val timeParts = time.time.split(":")
+            
+            bookingCalendar.set(Calendar.YEAR, dateParts[0].toInt())
+            bookingCalendar.set(Calendar.MONTH, dateParts[1].toInt() - 1)
+            bookingCalendar.set(Calendar.DAY_OF_MONTH, dateParts[2].toInt())
+            bookingCalendar.set(Calendar.HOUR_OF_DAY, timeParts[0].toInt())
+            bookingCalendar.set(Calendar.MINUTE, timeParts[1].toInt())
+            bookingCalendar.set(Calendar.SECOND, 0)
+
+            val notificationTime = bookingCalendar.timeInMillis - (30 * 60 * 1000)
+
+            if (notificationTime <= System.currentTimeMillis()) {
+                return
+            }
+
+            val intent = Intent(requireContext(), BookingNotificationReceiver::class.java).apply {
+                putExtra("serviceName", args.serviceName)
+                putExtra("time", time.time)
+            }
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                requireContext(),
+                bookingCalendar.timeInMillis.toInt(),
+                intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        notificationTime,
+                        pendingIntent
+                    )
+                } else {
+                    val intentPermission = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                    startActivity(intentPermission)
+                }
+            } else {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    notificationTime,
+                    pendingIntent
+                )
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun navigateToConfirmation(date: String, time: String) {

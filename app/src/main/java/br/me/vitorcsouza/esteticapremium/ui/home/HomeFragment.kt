@@ -48,6 +48,12 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_homeFragment_to_servicesFragment)
             }
         }
+
+        binding.cvMySchedules.setOnClickListener {
+            if (findNavController().currentDestination?.id == R.id.homeFragment) {
+                findNavController().navigate(R.id.action_homeFragment_to_bookingsFragment)
+            }
+        }
     }
 
     override fun onDestroyView() {

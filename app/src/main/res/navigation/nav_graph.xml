@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_homeFragment_to_servicesFragment"
             app:destination="@id/servicesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bookingsFragment"
+            app:destination="@id/bookingsFragment" />
     </fragment>
 
     <fragment
@@ -105,7 +108,16 @@
         <argument
             android:name="time"
             app:argType="string" />
+        <action
+            android:id="@+id/action_bookingConfirmationFragment_to_bookingsFragment"
+            app:destination="@id/bookingsFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/bookingsFragment"
+        android:name="br.me.vitorcsouza.esteticapremium.ui.booking.BookingsFragment"
+        android:label="Meus Agendamentos"
+        tools:layout="@layout/fragment_bookings" />
 
     <action
         android:id="@+id/action_global_homeFragment"
