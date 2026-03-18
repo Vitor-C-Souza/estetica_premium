@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Estetica premium</string>
+    <string name="estetica">ESTÉTICA</string>
+    <string name="premium">PREMIUM</string>
+    <string name="e_mail">E-mail</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">ENTRAR</string>
+    <string name="esqueceu_a_senha">Esqueceu a senha?</string>
+    <string name="nao_tem_conta">Não tem conta?</string>
+    <string name="criar_conta">Criar conta</string>
+    <string name="icon_email">icon email</string>
+    <string name="icon_password">icon password</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="confirmar_senha">Confirmar Senha</string>
+    <string name="cadastrar">CADASTRAR</string>
+    <string name="ja_tem_conta">Já tem conta?</string>
+    <string name="fazer_login">Fazer login</string>
+    <string name="icon_person">icon person</string>
+    <string name="ol">Olá,</string>
+    <string name="nome_usuario">Maria Silva</string>
+    <string name="reserve_seu_horario">Reserve seu horário</string>
+    <string name="agendar_servico">Agendar Serviço</string>
+    <string name="icon_calendar">icon calendar</string>
+    <string name="icon_clock">icon clock</string>
+    <string name="meus_agendamentos">Meus Agendamentos</string>
+    <string name="ver_compromissos">Ver compromissos</string>
+    <string name="profissionais">Profissionais</string>
+    <string name="conheca_nossa_equipe">Conheça nossa equipe</string>
+    <string name="destaque">DESTAQUE</string>
+    <string name="icon_sparkle">icon sparkle</string>
+    <string name="tratamento_facial_premium">Tratamento Facial Premium</string>
+    <string name="experimente_nosso_servico_mais_procurado">Experimente nosso serviço mais procurado</string>
+    <string name="saiba_mais">SAIBA MAIS</string>
+</resources>
