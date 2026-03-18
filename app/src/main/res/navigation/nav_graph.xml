@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_homeFragment_to_bookingsFragment"
             app:destination="@id/bookingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_professionalsFragment"
+            app:destination="@id/professionalsFragment" />
     </fragment>
 
     <fragment
@@ -72,6 +75,7 @@
         tools:layout="@layout/fragment_professionals">
         <argument
             android:name="serviceName"
+            android:defaultValue="All"
             app:argType="string" />
         <action
             android:id="@+id/action_professionalsFragment_to_bookingFragment"

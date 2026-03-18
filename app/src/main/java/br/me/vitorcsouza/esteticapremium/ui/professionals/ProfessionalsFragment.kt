@@ -48,11 +48,14 @@ class ProfessionalsFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.professionals.observe(viewLifecycleOwner) { list ->
             binding.rvProfessionals.adapter = ProfessionalAdapter(list) { professional ->
-                val action = ProfessionalsFragmentDirections.actionProfessionalsFragmentToBookingFragment(
-                    serviceName = args.serviceName,
-                    professionalName = professional.name
-                )
-                findNavController().navigate(action)
+                // Só navega para o agendamento se houver um serviço selecionado
+                if (args.serviceName != "Todos" && args.serviceName != "All") {
+                    val action = ProfessionalsFragmentDirections.actionProfessionalsFragmentToBookingFragment(
+                        serviceName = args.serviceName,
+                        professionalName = professional.name
+                    )
+                    findNavController().navigate(action)
+                }
             }
         }
     }

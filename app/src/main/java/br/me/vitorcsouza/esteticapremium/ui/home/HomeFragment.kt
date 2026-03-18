@@ -54,6 +54,15 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_homeFragment_to_bookingsFragment)
             }
         }
+
+        binding.cvStaff.setOnClickListener {
+            if (findNavController().currentDestination?.id == R.id.homeFragment) {
+                val action = HomeFragmentDirections.actionHomeFragmentToProfessionalsFragment(
+                    serviceName = "Todos"
+                )
+                findNavController().navigate(action)
+            }
+        }
     }
 
     override fun onDestroyView() {
