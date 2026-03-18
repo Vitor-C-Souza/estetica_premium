@@ -1,4 +1,4 @@
-package br.me.vitorcsouza.esteticapremium.auth.login
+package br.me.vitorcsouza.esteticapremium.auth.register
 
 import android.os.Bundle
 import android.view.LayoutInflater
