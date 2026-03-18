@@ -16,6 +16,7 @@ class ServicesFragment : Fragment() {
 
     private var _binding: FragmentServicesBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: ServiceViewModel by viewModels()
 
     override fun onCreateView(
@@ -51,7 +52,7 @@ class ServicesFragment : Fragment() {
         }
     }
 
-    private fun onServiceClick() {
+    private fun onServiceClick(service: Service) {
         findNavController().navigate(R.id.action_servicesFragment_to_professionalsFragment)
     }
 
