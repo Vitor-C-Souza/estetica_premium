@@ -7,13 +7,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.me.vitorcsouza.esteticapremium.R
 import br.me.vitorcsouza.esteticapremium.databinding.ItemDateBinding
+import androidx.core.graphics.toColorInt
 
 class DateAdapter(
     private val dates: List<DateModel>,
     private val onDateSelected: (DateModel) -> Unit
 ) : RecyclerView.Adapter<DateAdapter.DateViewHolder>() {
 
-    private var selectedPosition = 2 // Defaulting to the one in the screenshot (Wednesday 17)
+    private var selectedPosition = 0
 
     inner class DateViewHolder(private val binding: ItemDateBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -29,7 +30,7 @@ class DateAdapter(
                 binding.tvDayName.setTextColor(Color.WHITE)
                 binding.tvDayNumber.setTextColor(Color.WHITE)
             } else {
-                binding.cvDate.setCardBackgroundColor(Color.parseColor("#F8F8F8"))
+                binding.cvDate.setCardBackgroundColor("#F8F8F8".toColorInt())
                 binding.tvDayName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.gray_text))
                 binding.tvDayNumber.setTextColor(Color.parseColor("#2E3A59"))
             }

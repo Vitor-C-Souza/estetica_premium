@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.me.vitorcsouza.esteticapremium.databinding.FragmentBookingBinding
@@ -19,8 +20,13 @@ class BookingFragment : Fragment() {
     private var _binding: FragmentBookingBinding? = null
     private val binding get() = _binding!!
 
+    private val args: BookingFragmentArgs by navArgs()
+
     private var calendar = Calendar.getInstance()
     private val today = Calendar.getInstance()
+    
+    private var selectedDate: DateModel? = null
+    private var selectedTime: TimeModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +49,6 @@ class BookingFragment : Fragment() {
 
         binding.ivPrevMonth.setOnClickListener {
             calendar.add(Calendar.MONTH, -1)
-            // Prevent going before current month
             if (calendar.get(Calendar.MONTH) < today.get(Calendar.MONTH) && 
                 calendar.get(Calendar.YEAR) <= today.get(Calendar.YEAR)) {
                 calendar = today.clone() as Calendar
@@ -57,8 +62,31 @@ class BookingFragment : Fragment() {
         }
 
         binding.btnConfirm.setOnClickListener {
-            Toast.makeText(context, "Agendamento confirmado!", Toast.LENGTH_SHORT).show()
+            showConfirmationDialog()
         }
+    }
+
+    private fun showConfirmationDialog() {
+        val dateText = selectedDate?.let { "${it.dayNumber} de ${binding.tvMonthYear.text}" } ?: "Data não selecionada"
+        val timeText = selectedTime?.time ?: "Horário não selecionado"
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmar Agendamento")
+            .setMessage("Deseja confirmar seu agendamento para o dia $dateText às $timeText?")
+            .setPositiveButton("Confirmar") { _, _ ->
+                navigateToConfirmation(dateText, timeText)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun navigateToConfirmation(date: String, time: String) {
+        val action = BookingFragmentDirections.actionBookingFragmentToBookingConfirmationFragment(
+            professionalName = args.professionalName,
+            date = date,
+            time = time
+        )
+        findNavController().navigate(action)
     }
 
     private fun updateUI() {
@@ -67,7 +95,7 @@ class BookingFragment : Fragment() {
     }
 
     private fun updateMonthYearHeader() {
-        val monthYearFormat = SimpleDateFormat("MMMM yyyy", Locale("pt", "BR"))
+        val monthYearFormat = SimpleDateFormat("MMMM yyyy", Locale.forLanguageTag("pt-BR"))
         binding.tvMonthYear.text = monthYearFormat.format(calendar.time).replaceFirstChar { it.uppercase() }
     }
 
@@ -75,10 +103,9 @@ class BookingFragment : Fragment() {
         val tempCalendar = calendar.clone() as Calendar
         val dates = mutableListOf<DateModel>()
         
-        val dayFormat = SimpleDateFormat("EEE", Locale("pt", "BR"))
+        val dayFormat = SimpleDateFormat("EEE", Locale.forLanguageTag("pt-BR"))
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-        // If it's the current month, start from today. Otherwise, start from the 1st.
         if (tempCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
             tempCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
             tempCalendar.set(Calendar.DAY_OF_MONTH, today.get(Calendar.DAY_OF_MONTH))
@@ -86,20 +113,21 @@ class BookingFragment : Fragment() {
             tempCalendar.set(Calendar.DAY_OF_MONTH, 1)
         }
 
-        // Generate days for the selected month (or next 14 days for simplicity in the slider)
-        // Let's generate 14 days from the start point for a consistent UI
         for (i in 0 until 14) {
             val dayName = dayFormat.format(tempCalendar.time).uppercase().take(3)
             val dayNumber = tempCalendar.get(Calendar.DAY_OF_MONTH).toString()
             val fullDate = dateFormat.format(tempCalendar.time)
             
-            dates.add(DateModel(dayName, dayNumber, fullDate, i == 0))
+            val dateModel = DateModel(dayName, dayNumber, fullDate, i == 0)
+            if (i == 0) selectedDate = dateModel
+            
+            dates.add(dateModel)
             tempCalendar.add(Calendar.DAY_OF_YEAR, 1)
         }
 
         binding.rvDates.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvDates.adapter = DateAdapter(dates) { date ->
-            // Handle date selection if needed
+            selectedDate = date
         }
     }
 
@@ -114,7 +142,7 @@ class BookingFragment : Fragment() {
 
         binding.rvTimes.layoutManager = GridLayoutManager(context, 3)
         binding.rvTimes.adapter = TimeAdapter(times) { time ->
-            // Handle time selection if needed
+            selectedTime = time
         }
     }
 

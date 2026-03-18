@@ -35,4 +35,10 @@
     <string name="nossos_servicos">Nossos Serviços</string>
     <string name="icon_back">icon back</string>
     <string name="icon_star">icon star</string>
+    <string name="agendamento_confirmado">Agendamento Confirmado</string>
+    <string name="seu_horario_foi_reservado_com_sucesso">Seu horário foi reservado com sucesso</string>
+    <string name="profissional">Profissional</string>
+    <string name="profissional_selected">Dra. Ana Costa</string>
+    <string name="data">Data</string>
+    <string name="data_selected">17 de Março, 2026</string>
 </resources>

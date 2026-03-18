@@ -76,6 +76,35 @@
         android:id="@+id/bookingFragment"
         android:name="br.me.vitorcsouza.esteticapremium.ui.booking.BookingFragment"
         android:label="Booking"
-        tools:layout="@layout/fragment_booking" />
+        tools:layout="@layout/fragment_booking">
+        <argument
+            android:name="professionalName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_bookingFragment_to_bookingConfirmationFragment"
+            app:destination="@id/bookingConfirmationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bookingConfirmationFragment"
+        android:name="br.me.vitorcsouza.esteticapremium.ui.booking.BookingConfirmationFragment"
+        android:label="Confirmation"
+        tools:layout="@layout/fragment_booking_confirmation">
+        <argument
+            android:name="professionalName"
+            app:argType="string" />
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <argument
+            android:name="time"
+            app:argType="string" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
 
 </navigation>
