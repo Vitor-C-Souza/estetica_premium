@@ -1,4 +1,3 @@
-@Suppress("UnstableApiUsage")
 pluginManagement {
     repositories {
         google {
