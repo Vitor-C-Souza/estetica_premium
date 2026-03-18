@@ -38,10 +38,14 @@
 
         <!-- Agendar Serviço -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cvSchedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="20dp">
 
             <ImageView
@@ -81,10 +85,14 @@
 
         <!-- Meus Agendamentos -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cvMySchedules"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="20dp">
 
             <ImageView
@@ -124,10 +132,14 @@
 
         <!-- Profissionais -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cvStaff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="20dp">
 
             <ImageView

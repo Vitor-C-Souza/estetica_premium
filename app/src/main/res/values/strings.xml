@@ -31,4 +31,8 @@
     <string name="tratamento_facial_premium">Tratamento Facial Premium</string>
     <string name="experimente_nosso_servico_mais_procurado">Experimente nosso serviço mais procurado</string>
     <string name="saiba_mais">SAIBA MAIS</string>
+
+    <string name="nossos_servicos">Nossos Serviços</string>
+    <string name="icon_back">icon back</string>
+    <string name="icon_star">icon star</string>
 </resources>
